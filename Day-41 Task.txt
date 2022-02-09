@@ -1,0 +1,99 @@
+
+Design DB model for Zen class Student Collection Batch Collection Task Collection Mentor Collection
+
+
+
+
+-------------------students-------------------
+
+CREATE TABLE class_app.students (
+        stud_profile_id INTEGER ,
+        stud_name VARCHAR(100) NOT NULL,
+        stud_email VARCHAR(250) NOT NULL,
+        stud_mob_num VARCHAR(15) NOT NULL,
+        stud_join_date DATETIME NOT NULL,
+        stud_dob DATE DEFAULT NULL,
+        PRIMARY KEY (stud_profile_id)
+    );
+
+
+INSERT INTO 
+	`class_app`.`students`(stud_profile_id, stud_name, stud_email, stud_mob_num, stud_join_date, stud_dob)  
+VALUES
+	(111, 'Tanu', 'tanu@gmail.com', 7348678350,'2019-10-18 5:25:10', '1994-10-13'),
+	(112, 'Manu', 'manu@gmail.com', 7345678950,'2019-10-01 7:30:20', '1993-02-23'),
+	(113, 'Banu', 'banu@gmail.com', 9345678950, '2019-10-10 9:25:28', '1996-05-14'),
+	(114, 'Tom', 'tom@gmail.com', 8845678950, '2019-10-25 8:31:40', '1997-11-07'),
+	(115, 'Jerry', 'jerry@gmail.com', 7745678950, '2019-10-27 5:25:20', '1995-08-22');
+
+
+-----------------batch-------------------
+
+
+CREATE TABLE class_app.batch (
+        batch_id INTEGER,
+        stud_profile_id INTEGER NOT NULL,
+        stud_name VARCHAR(100) NOT NULL,
+        stud_batch_num VARCHAR(7) NOT NULL,
+        assigned_mentor VARCHAR(100) NOT NULL,
+        PRIMARY KEY (batch_id),
+        FOREIGN KEY (stud_profile_id )
+        REFERENCES students(stud_profile_id)
+    );
+
+INSERT INTO 
+	`class_app`.`batch`( batch_id , stud_profile_id , stud_name , stud_batch_num , assigned_mentor )  
+VALUES
+	(1, 111, 'Tanu', 'b201', 'anish'),
+	(2, 112, 'Manu', 'b205', 'david'),
+	(3, 113, 'Banu', 'b201', 'anish'),
+	(4, 114, 'Tom', 'b202', 'krish'),
+	(5, 115, 'Jerry', 'b202', 'ramya');
+
+
+-----------------------task--------------------------
+
+
+ CREATE TABLE class_app.task (
+        task_id INTEGER,
+        stud_profile_id INTEGER NOT NULL,
+        completed_task INTEGER NOT NULL, 
+        pending_task INTEGER NOT NULL,
+        PRIMARY KEY (task_id ),
+        FOREIGN KEY (stud_profile_id )
+        REFERENCES Students (stud_profile_id)
+    );
+
+INSERT INTO 
+	`class_app`.`task`( task_id , stud_profile_id , completed_task , pending_task )  
+VALUES
+	(1, 111, 6 , 4),
+	(2, 112, 5, 5),
+	(3, 113, 9, 1),
+	(4, 114, 4, 6),
+	(5, 115, 8, 2);
+
+-------------------mentor------------------
+
+ CREATE TABLE class_app.mentor (
+        mentor_id INTEGER,
+        mentor_profile_id INTEGER NOT NULL,
+        mentor_name VARCHAR(100) NOT NULL,
+        mentor_email VARCHAR(250) NOT NULL,
+        mentor_mobile_num VARCHAR(15) NOT NULL,
+        stud_profile_id INTEGER NOT NULL,
+        assigned_stud VARCHAR(100) NOT NULL,
+        PRIMARY KEY (mentor_id),
+        FOREIGN KEY (stud_profile_id)
+        REFERENCES Students (stud_profile_id)
+    );
+
+
+INSERT INTO 
+	`class_app`.`mentor`( mentor_id, mentor_profile_id, mentor_name, mentor_email, mentor_mobile_num, stud_profile_id, assigned_stud )  
+VALUES
+	(1, 301, 'anish', 'anish@gmail.com', 9348658354, 111, 'Tanu'),
+	(2, 302, 'david', 'david@gmail.com', 9948678357, 112, 'Manu'),
+	(3, 301, 'anish', 'anish@gmail.com', 7388688356, 113, 'Banu'),
+	(4, 303, 'krish', 'krish@gmail.com', 71486783501, 114, 'Tom'),
+	(5, 304, 'ramya', 'ramya@gmail.com', 6348678350, 115, 'Jerry');
